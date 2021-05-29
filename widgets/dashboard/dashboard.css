@@ -1,0 +1,40 @@
+
+
+
+.menu-tittle-btn{
+    font-weight: bold;
+    text-align: start;
+}
+.menu-sub-tittle-btn{
+    font-weight:100;
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.377);
+    text-align: start;
+
+}
+.tab-button-group:hover{
+    animation: 0.5s ease-out 0s 1 hoverFadeEffect;
+    background-color: rgba(219, 236, 255, 0.911)
+}
+.tab-content{
+    background-color: #131313;
+    height: 100%;
+}
+
+.tab-tittle #tittle{
+    font-size: 2rem;
+    font-weight: bolder;
+    color: rgb(255, 255, 255);
+}
+.tab-tittle #sub-tittle{
+    font-weight: lighter;
+    color: rgba(255, 255, 255, 0.377);
+
+}
+.sub-tittle{
+    font-size: 1rem;
+    font-weight: bolder;
+}
+.w-80{
+    width: 80%;
+}

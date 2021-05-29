@@ -1,0 +1,118 @@
+@keyframes slideInFromBottom {
+    0% {
+        transform: translateY(50%);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes slideInFromTop {
+    0% {
+        transform: translateY(-50%);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.card-container{
+    animation: 1s ease-out 0s 1 slideInFromBottom;
+    height: 29rem;
+}
+.card{
+    
+    background-color: rgb(34, 34, 34);
+    transition: transform .2s; /* Animation */
+}
+.card:hover{
+    transform: scale(1.02);
+    border-color: #ffffff;
+
+}
+/* */
+.card-title{
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+    font-weight: bolder;
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-height: 18px; /* fallback */
+    max-height: 256px; /* fallback */
+   -webkit-line-clamp: 5; /* number of lines to show */
+   -webkit-box-orient: vertical;
+}
+.description{
+    font-weight: lighter;
+    color: rgba(255, 255, 255, 0.767);
+
+    word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-height: 16px; /* fallback */
+    max-height: 46px; /* fallback */
+   -webkit-line-clamp: 2; /* number of lines to show */
+   -webkit-box-orient: vertical;
+}
+#hover-price-info{
+    animation: 0.3s ease-out 0s 1 slideInFromBottom;
+}
+#price-info{
+    animation: 0.3s ease-out 0s 1 slideInFromTop;
+}
+#price{
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    color: rgb(255, 145, 0);
+    font-weight: bolder;
+}
+#discount{
+    color: rgba(255, 255, 255, 0.795);
+    font-weight: lighter;
+    font-size: 0.8rem;
+    text-decoration: line-through;
+}
+#discount-percent{
+    font-weight: bolder;
+    font-size: 0.8rem;
+    color: rgb(255, 145, 0);
+
+}
+.card-img-top{
+    object-fit: cover; 
+}
+
+
+.add-cart{
+    animation: 0.3s ease-out 0s 1 slideInFromBottom;
+    border-width: 0px;
+    box-shadow: #002991 0px 8px;
+    background-color:#0048ff;
+}
+.buy-now{
+    animation: 0.3s ease-out 0s 1 slideInFromBottom;
+    border-width: 0px;
+    box-shadow: #ff7b00 0px 8px;
+    background-color:#ffd000
+}
+.buy-now:focus{
+    background-color:#ffd000
+}
+.buy-now:hover{
+    background-color:#ffd000d7
+}
+
+.checked {
+    font-size: .7rem;
+    color: rgb(255, 145, 0);
+
+  }
+.un-checked{
+    font-size: .7rem;
+    color:rgb(117, 117, 117)
+}

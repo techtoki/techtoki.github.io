@@ -1,0 +1,445 @@
+
+<link rel="stylesheet" href="./tabs/product/product.css">
+<div class="modal fade" tabindex="-1" id="product-modal">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+            <div class="d-flex flex-column">
+                <div class="modal-title" id="modal-title">Modify Product</div>
+                <div class="modal-title" id="modal-subtitle"></div>
+            </div>
+            
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form id="registration-form">
+                <div class="d-flex flex-row justify-content-between">
+                    <div class="w-50" style="padding-right:10px">
+                        <div class="form-group email-field">
+                            <label for="name">Product Name <button type="button" class="btn p-0 shadow-none edit-btn"><i class="bi bi-pencil-square"></i></button></label>
+                            <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Name" required readonly>
+                            <div class="invalid-feedback">
+                                Plase enter email name.
+                            </div>
+                        </div>
+                        <div class="form-group email-field">
+                            <label for="name">Brand <button type="button" class="btn p-0 shadow-none edit-btn"><i class="bi bi-pencil-square"></i></button></label>
+                            <input type="text" class="form-control" id="brand" aria-describedby="brand" placeholder="Brand" required readonly>
+                            <div class="invalid-feedback">
+                                Plase enter email name.
+                            </div>
+                        </div>
+                        <div class="form-group mt-3 password-field">
+                            <label for="Category">Category <button type="button" class="btn p-0 shadow-none edit-btn"><i class="bi bi-pencil-square"></i></button></label>
+                            <div class="input-group mb-3">
+                                <select class="form-select" id="category" disabled>
+                                  <option selected >Choose...</option>
+                                </select>
+                              </div>
+                            <div class="invalid-feedback">
+                                Does not matched.
+                            </div>
+                        </div>
+                        <img class = "mt-3" src="" width="100px" id="image-preview">
+                        <div class="form-group  mt-1">
+                            
+                            <label for="url-from">Image URL <button type="button" class="btn p-0 shadow-none edit-btn"><i class="bi bi-pencil-square"></i></button></label>
+                            <textarea class="form-control" type="url" id="image-url" aria-label="With textarea" readonly required></textarea >
+                            <div class="invalid-feedback">
+                                This field is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-50" style="padding-left:10px">
+                        <div class="form-group">
+                            <label for="description">Description <button type="button" class="btn p-0 shadow-none edit-btn"><i class="bi bi-pencil-square"></i></button></label>
+                            <textarea class="form-control" id="description" aria-label="With textarea" wrap="hard"readonly required></textarea>
+                            <div class="invalid-feedback">
+                                This field is required.
+                            </div>
+                        </div>
+                        
+                        <div class="form-group  mt-3">
+                            <label for="url-from">URL From <button type="button" class="btn p-0 shadow-none edit-btn"><i class="bi bi-pencil-square"></i></button></label>
+                            <textarea class="form-control" type="url" id="url-from" aria-label="With textarea" readonly required></textarea>
+                            <div class="invalid-feedback">
+                                This field is required.
+                            </div>
+                        </div>
+                        <div class="form-group  mt-3">
+                            <label for="url-from">Tags <button type="button" class="btn p-0 shadow-none edit-btn"><i class="bi bi-pencil-square"></i></button></label>
+                            <textarea class="form-control" id="tag" aria-label="With textarea" readonly required></textarea>
+                            <div class="invalid-feedback">
+                                This field is required.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr>
+                <label class="sub-tittle">Pricing</label>
+                <div class="form-group">
+                    <label for="url-from">Price <button type="button" class="btn p-0 shadow-none edit-btn"><i class="bi bi-pencil-square"></i></button></label>
+                    <input type="number" class="form-control" id="price-input" placeholder="Price" readonly required>
+                </div>
+                <div class="form-group">
+                    <label for="url-from">Discount <button type="button" class="btn p-0 shadow-none edit-btn"><i class="bi bi-pencil-square"></i></button></label>
+                    <input type="number" class="form-control" id="discount-input" placeholder="Discount" readonly required>
+                </div>
+                
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button  type="button" class="btn btn-primary w-100 mt-2" id="save-btn">Save changes</button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="modal fade" tabindex="-1" id="product-modal-loading">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content" style="background-color: transparent;">
+        <div class="modal-body">
+            <div class="d-flex flex-row justify-content-center w-100">
+                <div class="spinner-border text-light" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+<script type="module">
+    import {Cards} from "/ecommerce/widgets/product_card/product_card.js";
+    let products;
+    let categories;
+    let parent_categories = [];
+    function isValidURL(string) {
+        const isUrl = string => {
+            try { return Boolean(new URL(string)); }
+            catch(e){ return false; }
+        }
+    };
+    String.prototype.toProperCase = function () {
+        return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    };
+    function createCategoryBar(container_id){
+        for(let index in parent_categories){
+            console.log(parent_categories[index]);
+            let html = '<select class="form-select me-2" id="sort-by">';
+            html+='<option class="cat-parent" value="'+parent_categories[index].id+'">'+parent_categories[index].name.toProperCase()+'</option>'
+            for(let i in categories){
+                
+                // if(categories[i].parent_category_id==parent_categories[index].id){
+                //     html+='<option value="'+categories[i].id+'">'+categories[i].name.toProperCase()+'</option>'
+                // }
+            }
+            html += '</select>';
+            
+            $("#"+container_id).append(html);
+        }
+    }
+    $.post("/ecommerce/php/managers/category_manager.php",{request_product:["get"]},(data,stats,xhr)=>{
+        categories = JSON.parse(data);
+        
+        $(document).ready(()=>{
+            let html;
+            for(let index in categories){
+                html += '<option value="'+categories[index].id+'">'+categories[index].name+'</option>';
+                if(categories[index].parent_category_id!=-1){
+                    let parent_id = categories[index].parent_category_id;
+                    parent_categories.push(categories[parent_id-1]);
+                }
+            }
+            parent_categories = Array.from(new Set(parent_categories));
+            $("#category").append(html);
+            createCategoryBar("categories");
+        });
+    });
+    let cards = new Cards(
+            {
+                container:document.getElementById("product-container"),
+                onClick:(value)=>{
+                    
+                },onClickAction:(data)=>{
+                    // console.log(data);
+                    $.post("/ecommerce/php/managers/product_manager.php",{request_product:["where",["id"],[data]]},
+                        (response, status, xhr)=>{
+                            products = JSON.parse(response)[0];
+                            let name = document.getElementById("name");
+                            let category = document.getElementById("category");
+                            let description = document.getElementById("description");
+                            let image_url = document.getElementById("image-url");
+                            let url_from = document.getElementById("url-from");
+                            let tag = document.getElementById("tag");
+                            let brand = document.getElementById("brand");
+                            let price = document.getElementById("price-input");
+                            let discount = document.getElementById("discount-input");
+                            
+
+                            document.getElementById("save-btn").innerHTML = "Save Changes"
+                            document.getElementById("modal-subtitle").innerHTML = products.name ;
+
+                            name.setAttribute("readonly","true");
+                            category.setAttribute("disabled","true");
+                            description.setAttribute("readonly","true");
+                            image_url.setAttribute("readonly","true");
+                            url_from.setAttribute("readonly","true");
+                            tag.setAttribute("readonly","true");
+                            brand.setAttribute("readonly","true");
+                            price.setAttribute("readonly","true");
+                            discount.setAttribute("readonly","true");
+
+                            name.value = products.name ;
+                            brand.value = products.brand ;
+                            category.value = products.category_id;
+                            description.value = products.description ;
+                            image_url.value = products.image_url ;
+                            url_from.value = products.url_from ;
+
+                            document.getElementById("image-preview").setAttribute("src",products.image_url);
+                            tag.value = products.tag ;
+                            price.value = products.price ;
+                            discount.value = products.discount;
+                            $("#product-modal").modal("show");
+                            $("#product-modal-loading").modal("hide");
+                            $("#save-btn").click(()=>{
+
+                                $.post("/ecommerce/php/managers/product_manager.php",{request_product:["upsert",{
+                                    "name":name.value,
+                                    "category":category.value,
+                                    "description":description.value,
+                                    "image-url":image_url.value,
+                                    "url-from":url_from.value,
+                                    "tag":tag.value,
+                                    "price-input":price.value,
+                                    "discount-input":discount.value,
+                                    "brand":brand.value,
+                                    "id":products.id,
+                                    "wish":products.wish_count,
+                                    "rating":products.rating,
+                                    "date-created":products.date_created
+
+                                }]},
+                                (response, status, xhr)=>{
+                                    if(response=="Success"){
+                                        console.log(response);
+                                        sessionStorage.removeItem("cards_horizozntal");
+                                        sessionStorage.removeItem("cards");
+                                        $("#product-modal").modal("hide");
+                                        $("#product-modal-loading").modal("hide");
+                                        alert("SUCCESS!");
+                                        window. location. reload();
+                                    }
+                                    else{
+                                        console.log(response);
+                                    }
+                                });
+                                $("#product-modal-loading").modal("show");
+                            });
+                            $(".edit-btn").on('click',function(event){
+                                let originalValue;
+                                event.stopPropagation();
+                                event.stopImmediatePropagation();
+                                let parent = this.closest(".form-group");
+                                
+                                if($($(parent).children()[1]).children().attr('disabled')!=null){
+                                    $($(parent).children()[1]).children().removeAttr("disabled");
+                                }
+                                else{
+                                    $($(parent).children()[1]).children().attr('disabled','true');
+                                }
+                                if($($(parent).children()[1]).attr('readonly')!=null){
+                                    originalValue = $(parent).children()[1].value
+                                    $($(parent).children()[1]).removeAttr('readonly');                                  
+                                }
+                                else{
+                                    switch($($(parent).children()[1]).attr('id')){
+                                        case "name":
+                                            $(parent).children()[1].value = products.name;
+                                            break;
+                                        case "description":
+                                            $(parent).children()[1].value = products.description;
+                                            break;
+                                        case "image-url":
+                                            $(parent).children()[1].value = products.image_url;
+                                            break;
+                                        case "url-from":
+                                            $(parent).children()[1].value = products.url_from;
+                                            break;
+                                        case "tag":
+                                            $(parent).children()[1].value = products.tag;
+                                            break;
+                                        case "price-input":
+                                            $(parent).children()[1].value = products.price;
+                                            break;
+                                        case "discount-input":
+                                            $(parent).children()[1].value = products.discount;
+                                            break;
+
+                                    }
+                                   
+                                    $($(parent).children()[1]).attr('readonly','true');
+                                    $($(parent).children()[1]).value = originalValue;
+
+                                   
+                                }
+                               
+                            });
+                        });
+                    $("#product-modal-loading").modal("show");
+                },
+                isHorizontal:true
+            });
+    $(document).ready(()=>{
+        $("#product-modal").modal("hide");
+        $(".product-tab-button").on("click",(event)=>{
+            $(".product-tab-button").attr("style","display:flex");
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            let product_tab = document.getElementById("product_tab");
+            let promotion_tab = document.getElementById("promotion_tab");
+            event.currentTarget.style.backgroundColor = "#ffd000";
+            event.currentTarget.style.boxShadow = "#ff7b00 0px 8px";
+            switch(event.currentTarget.id){
+                case "product":
+                    
+                    promotion_tab.style.display = "none";
+                    product_tab.style.display = "flex";
+                    break;
+                case "promotion":
+
+                    promotion_tab.style.display = "flex";
+                    product_tab.style.display = "none";
+                    break;
+                }
+        });
+        
+        $("#add-product").click(()=>{
+            
+            let name = document.getElementById("name");
+            let category = document.getElementById("category");
+            let description = document.getElementById("description");
+            let image_url = document.getElementById("image-url");
+            let url_from = document.getElementById("url-from");
+            let tag = document.getElementById("tag");
+            let brand = document.getElementById("brand");
+            let price = document.getElementById("price-input");
+            let discount = document.getElementById("discount-input");
+            document.getElementById("image-preview").setAttribute("src","");
+            name.value = "";
+            category.value = "";
+            description.value = "";
+            image_url.value = "";
+            url_from.value = "";
+            tag.value = "";
+            price.value = "";
+            discount.value = "";
+            brand.value = "";
+
+
+
+            document.getElementById("modal-title").innerHTML = "Add Product"
+            document.getElementById("modal-subtitle").removeAttribute("readonly");
+            name.removeAttribute("readonly");
+            description.removeAttribute("readonly");
+            image_url.removeAttribute("readonly");
+            url_from.removeAttribute("readonly");
+            tag.removeAttribute("readonly");
+            brand.removeAttribute("readonly");
+            price.removeAttribute("readonly");
+            discount.removeAttribute("readonly");
+            category.removeAttribute("disabled");
+            document.getElementById("save-btn").innerHTML = "Add Product"
+            $("#product-modal").modal("show");
+            
+            $("#save-btn").click((event)=>{
+                console.log(category.value);
+                if(name.value!=""&&
+                    name.value!=""&&
+                    category.value!=""&&
+                    description.value!=""&&
+                    image_url.value!=""&&
+                    url_from.value!=""&&
+                    tag.value!=""&&
+                    price.value!=""&&
+                    discount.value!=""&&
+                    brand.value!=""
+                ){
+                    
+                    $.post("/ecommerce/php/managers/product_manager.php",{request_product:["insert",{
+                        "name":name.value,
+                        "category":category.value,
+                        "description":description.value,
+                        "image-url":image_url.value,
+                        "url-from":url_from.value,
+                        "tag":tag.value,
+                        "price-input":price.value,
+                        "discount-input":discount.value,
+                        "brand":brand.value,
+
+                    }]},
+                    (response, status, xhr)=>{
+                        if(response==""){
+                            sessionStorage.removeItem("cards_horizozntal");
+                            sessionStorage.removeItem("cards");
+                            $("#product-modal").modal("hide");
+                            $("#product-modal-loading").modal("hide");
+                            alert("SUCCESS!");
+                            window. location. reload();
+                        }
+                        else{
+                            console.log(response);
+                        }
+                    });
+                    $("#product-modal-loading").modal("show");
+                }
+                else{
+                    console.log("INVALID INPUTS");
+                }
+                
+               
+            });
+
+
+        });
+    });
+
+    
+</script>
+
+
+
+<div class="d-block d-mg-flex mb-3">
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-secondary product-tab-button" id="product">Product</button>
+        <button type="button" class="btn btn-secondary product-tab-button" id="promotion">Promotion</button>
+    </div>
+</div>
+
+<div class="flex-column " id="product_tab">
+    <div class="d-flex flex-row justify-content-between" id="categories">
+        
+    </div>
+    <div class="input-group my-2 mx-0">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon1">
+        <i class="bi bi-search" ></i>
+            Find
+        </button>
+        <input type="text" class="form-control" placeholder="your poison.." aria-label="Example text with button addon" aria-describedby="button-addon1">
+    </div>
+    <div class="d-flex flex-column w-100 justify-content-start py-3 overflow-auto" id="product-container">
+        <div class="d-flex flex-row justify-content-center w-100">
+            <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <button type="button" id="add-product" class="btn btn-secondary mt-2 w-100"><i class="bi bi-plus-lg"></i> Add Product</button>
+</div>
+
+<div class="flex-column" id="promotion_tab" style="display:none">
+    asd
+</div>
+

@@ -1,0 +1,76 @@
+@font-face {
+    font-family: JapaneseRobot;
+    src: url("../assets/fonts/JapaneseRobot.ttf");
+  }
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+body{
+    margin: 0;
+    background-image: url("../assets/images/background.png");
+    font-family:"Roboto",sans-serif;
+    /* color:white; */
+}
+@keyframes hoverFadeEffect {
+    0% {
+        background-color: rgba(255, 255, 255, 1)
+    }
+    100% {
+        background-color: rgba(219, 236, 255, 0.911)
+    }
+}
+
+@keyframes slideInFromTop {
+    0% {
+      transform: translateY(-50%);
+      opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.navbar{
+    background-color: #131313;
+}
+.content{
+    animation: 0.6s ease-out 0s 1 slideInFromTop;
+    justify-content: center;
+}
+.menu-tittle-btn{
+    font-weight: bold;
+    text-align: start;
+}
+.menu-sub-tittle-btn{
+    font-weight:100;
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.377);
+    text-align: start;
+
+}
+.tab-button-group:hover{
+    animation: 1s ease-out 0s 1 hoverFadeEffect;
+    background-color: rgba(219, 236, 255, 0.911)
+}
+.tab-content{
+    padding: 10px;
+    background-color: rgb(255, 255, 255);
+    height: 100%;
+}
+
+.tab-tittle #tittle{
+    font-size: 2rem;
+    font-weight: bolder;
+}
+.tab-tittle #sub-tittle{
+    font-weight: lighter;
+    color: rgba(0, 0, 0, 0.377);
+
+}
+.sub-tittle{
+    font-size: 1rem;
+    font-weight: bolder;
+}
+.w-80{
+    width: 80%;
+}
+

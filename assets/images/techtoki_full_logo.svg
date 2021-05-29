@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="161" viewBox="0 0 480 161">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 275.402px;
+        fill: #fff;
+        font-family: "Japanese Robot";
+      }
+    </style>
+  </defs>
+  <text id="Tech" class="cls-1" transform="translate(170.54 73.555) scale(0.389)">Tech</text>
+  <text id="Toki" class="cls-1" transform="translate(170.54 159.464) scale(0.389)">Toki</text>
+  <text id="o" class="cls-1" transform="matrix(0.608, 0, 0, 0.608, 24.567, 159.738)">o</text>
+  <text id="t" class="cls-1" transform="matrix(0.6, 0, 0, 0.6, 0.03, 112.687)">t</text>
+</svg>

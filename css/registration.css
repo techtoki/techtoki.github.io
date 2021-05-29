@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body{
+    margin: 0px;
+    background-color: #131313;
+    background-image: url("../assets/images/background.png");
+}
+
+.login-container{
+    margin-top: 0%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+@keyframes slideInFromTop {
+    0% {
+      transform: translateY(-50%);
+      opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes slideInFromBottom {
+    0% {
+        transform: translateY(5%);
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.logo{
+    animation: 2s ease-out 0s 1 slideInFromTop;
+    margin: 15px;
+    color: white;
+    font-family:"Roboto",sans-serif;
+    font-weight: lighter;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.card{
+    animation: 0.5s ease-out 0s 1 slideInFromBottom;
+    font-family:"Roboto",sans-serif;
+    border-radius: 0px;
+    box-shadow: #272727 15px 15px;
+}
+.form-group label{
+    font-size: .8rem;
+}
+.btn{
+    border-radius: 0px;
+}
+.confirm-btn{
+    box-shadow: #002991 0px 8px;
+    background-color:#0048ff
+}
+.tittle{
+    font-size: 2rem;
+    font-weight: bolder;
+}
+.sub-tittle{
+    font-size: 1rem;
+    font-weight: bolder;
+}
+
+.modal{
+    font-family:"Roboto",sans-serif;
+    border-radius: 0px;
+}
